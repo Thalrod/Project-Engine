@@ -50,7 +50,7 @@ public class MainGameLoop {
 				-0.5f,-0.5f,0.5f,
 				-0.5f,-0.5f,-0.5f,
 				0.5f,-0.5f,-0.5f,
-				0.5f,-0.5f,0.5f
+				0.5f,-0.5f,0.0f
 				
 		};
 		
