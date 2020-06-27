@@ -5,13 +5,12 @@ import org.lwjgl.util.vector.Vector3f;
 
 import core.render.DisplayManager;
 import core.render.Loader;
-import core.render.Renderer;
+import core.render.MasterRenderer;
 import entities.Camera;
 import entities.Entity;
 import entities.Light;
 import model.RawModel;
 import model.TexturedModel;
-import shaders.StaticShader;
 import textures.ModelTexture;
 import utils.OBJLoader;
 
@@ -20,10 +19,8 @@ public class MainGameLoop {
 	public static void main(String[] args) {
 		DisplayManager.createDisplay();
 		Loader loader = new Loader();
-		StaticShader shader = new StaticShader();
-		Renderer renderer = new Renderer(shader);
 		
-		RawModel model = OBJLoader.loadObjModel("dragon", loader);
+		RawModel model = OBJLoader.loadObjModel("lptree", loader);
 		
 		TexturedModel staticModel = new TexturedModel(model, new ModelTexture(loader.loadTexture("white")));
 		ModelTexture texture = staticModel.getTexture();
@@ -35,20 +32,19 @@ public class MainGameLoop {
 		
 		Camera camera = new Camera();
 		
+		MasterRenderer renderer = new MasterRenderer();
+		
 		while(!Display.isCloseRequested()) {
 			entity.increaseRotation(0, 1, 0);
 			camera.move();
-			renderer.prepare();
-			shader.start();
-			shader.loadLight(light);
-			shader.loadViewMatrix(camera);
-			renderer.render(entity, shader);
-			shader.stop();
+			renderer.processEntity(entity);
+			renderer.render(light, camera);
 			DisplayManager.updateDisplay();
+			
 			
 		}
 		
-		shader.cleanup();
+		renderer.cleanup();
 		loader.cleanup();
 		DisplayManager.closeDisplay();
 		
