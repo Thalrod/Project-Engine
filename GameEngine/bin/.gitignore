@@ -1,6 +1,7 @@
+/utils/
 /core/
+/terrain/
+/shaders/
 /entities/
 /model/
-/shaders/
 /textures/
-/utils/
